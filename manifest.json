@@ -1,0 +1,10 @@
+{
+  "name":"Gold Signal",
+  "short_name":"Gold Signal",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#0b1220",
+  "theme_color":"#0b1220",
+  "lang":"ro",
+  "icons":[{"src":"icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

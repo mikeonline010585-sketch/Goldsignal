@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="Gold Signal - XAU/USD SELL signal engine">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg">
+<title>Gold Signal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Gold Signal</h1>
+    <div class="sub">XAU/USD • M5 / M15 / H1</div>
+  </div>
+  <div id="statusDot" class="dot off"></div>
+</header>
+
+<main>
+  <section class="card hero">
+    <div id="signal" class="signal neutral">NO TRADE</div>
+    <div id="reason" class="reason">Introdu cheia API și pornește monitorizarea.</div>
+    <div class="grid">
+      <div><span>Entry</span><b id="entry">—</b></div>
+      <div><span>SL</span><b id="sl">—</b></div>
+      <div><span>TP</span><b id="tp">—</b></div>
+      <div><span>R:R</span><b id="rr">2:1</b></div>
+      <div><span>Score</span><b id="score">—</b></div>
+      <div><span>RSI</span><b id="rsi">—</b></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Condiții SELL</h2>
+    <div id="conditions" class="conditions"></div>
+  </section>
+
+  <section class="card">
+    <h2>Configurare</h2>
+    <label>Cheie Twelve Data</label>
+    <input id="apiKey" type="password" placeholder="Introdu API key">
+    <div class="row">
+      <button id="saveKey">Salvează cheia</button>
+      <button id="notifyBtn" class="secondary">Permite notificări</button>
+    </div>
+    <label class="check"><input id="auto" type="checkbox" checked> Actualizare automată la 60 secunde</label>
+    <div class="small">Strategie: SELL • 07:00–09:00 UTC • score ≥5/7 • RSI &lt;42 • SL 1 ATR • TP 2R</div>
+  </section>
+
+  <section class="card">
+    <h2>Ultima verificare</h2>
+    <div id="lastCheck">—</div>
+    <div id="error" class="error"></div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
