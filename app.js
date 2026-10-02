@@ -92,11 +92,41 @@ async function update(){
     $('error').textContent=e.message||String(e);
   }
 }
-function notify(title,body){
-  if(Notification.permission==='granted')new Notification(title,{body,icon:'icons/icon.svg'});
+async function notify(title,body){
+  try{
+    if(!('Notification' in window)){ alert('Acest browser nu suportă notificări.'); return; }
+    if(Notification.permission==='default'){
+      const p=await Notification.requestPermission();
+      if(p!=='granted'){ alert('Notificările nu au fost permise. Verifică permisiunea site-ului în Chrome.'); return; }
+    }
+    if(Notification.permission!=='granted'){ alert('Notificările sunt blocate pentru acest site. Activează-le din permisiunile Chrome.'); return; }
+    if('serviceWorker' in navigator){
+      const reg=await navigator.serviceWorker.ready;
+      if(reg.showNotification){
+        await reg.showNotification(title,{body,icon:'icons/icon.svg',badge:'icons/icon.svg',tag:'gold-signal'});
+        return;
+      }
+    }
+    new Notification(title,{body,icon:'icons/icon.svg'});
+  }catch(e){ alert('Nu am putut trimite notificarea: '+(e.message||e)); }
 }
 $('saveKey').onclick=()=>{localStorage.setItem(KEY,$('apiKey').value.trim());update()};
-$('notifyBtn').onclick=async()=>{if('Notification' in window){const p=await Notification.requestPermission();if(p==='granted')notify('Gold Signal','Notificările sunt activate.')}};
+$('notifyBtn').onclick=async()=>{
+  if(!('Notification' in window)){alert('Browserul nu suportă notificări.');return;}
+  if(Notification.permission==='denied'){alert('Notificările sunt blocate. Activează-le din permisiunile Chrome pentru acest site.');return;}
+  const p=Notification.permission==='granted'?'granted':await Notification.requestPermission();
+  if(p==='granted'){
+    $('notifyBtn').textContent='Notificări active ✓';
+    $('notifyBtn').classList.add('okbtn');
+    await notify('Gold Signal','Test reușit — notificările sunt activate.');
+  }else{
+    alert('Permisiunea nu a fost acordată.');
+  }
+};
+if('Notification' in window && Notification.permission==='granted'){
+  $('notifyBtn').textContent='Notificări active ✓';
+  $('notifyBtn').classList.add('okbtn');
+}
 $('auto').onchange=()=>{if(state.timer)clearInterval(state.timer);if($('auto').checked)state.timer=setInterval(update,60000)};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 update();state.timer=setInterval(update,60000);
