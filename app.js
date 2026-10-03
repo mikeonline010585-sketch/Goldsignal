@@ -66,7 +66,7 @@ async function update(){
     const hour=new Date(last.ts).getUTCHours();
     const session=hour>=7&&hour<9;
     const sell=score>=5&&session&&rsiOk;
-    const sl=sell?c+A:null,tp=sell?c+2*A:null;
+    const sl=sell?c+18:null,tp=sell?c-10:null;
 
     $('signal').textContent=sell?'SELL':'NO TRADE';
     $('signal').className='signal '+(sell?'sell':'neutral');
